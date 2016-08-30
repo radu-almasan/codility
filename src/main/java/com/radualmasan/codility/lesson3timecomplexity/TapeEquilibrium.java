@@ -1,4 +1,4 @@
-package com.radualmasan.codility.lesson2;
+package com.radualmasan.codility.lesson3timecomplexity;
 
 import java.util.Arrays;
 

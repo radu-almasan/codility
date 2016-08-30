@@ -1,5 +1,6 @@
-package com.radualmasan.codility.lesson2;
+package com.radualmasan.codility.lesson2arrays;
 
+import com.radualmasan.codility.lesson3timecomplexity.OddOccurrencesInArrayFinder;
 import org.junit.Before;
 import org.junit.Test;
 

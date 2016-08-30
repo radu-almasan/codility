@@ -1,4 +1,4 @@
-package com.radualmasan.codility.lesson2;
+package com.radualmasan.codility.lesson2arrays;
 
 import java.util.Arrays;
 
