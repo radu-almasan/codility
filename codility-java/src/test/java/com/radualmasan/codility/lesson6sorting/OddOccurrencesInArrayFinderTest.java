@@ -1,4 +1,4 @@
-package com.radualmasan.codility.lesson2arrays;
+package com.radualmasan.codility.lesson6sorting;
 
 import org.junit.Before;
 import org.junit.Test;
