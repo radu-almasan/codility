@@ -6,7 +6,7 @@ class MaxProductOfThree {
     val sorted = a.sorted
     val top3 = sorted.takeRight(3)
 
-    if (areAllTop3Negatives(top3)) {
+    if (notAllNegatives(top3)) {
       if (top3.contains(0) || top3.exists(_ < 0)) {
         val top2Negative = sorted.filter(_ < 0).take(2)
 
@@ -21,7 +21,7 @@ class MaxProductOfThree {
     top3.product
   }
 
-  private def areAllTop3Negatives(top3: Array[Int]) = {
+  private def notAllNegatives(top3: Array[Int]) = {
     top3.takeRight(1)(0) > 0
   }
 
