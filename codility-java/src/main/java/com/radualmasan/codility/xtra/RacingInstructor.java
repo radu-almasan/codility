@@ -17,7 +17,6 @@ public class RacingInstructor {
     private static class InstructionsSpectator extends Spliterators.AbstractSpliterator<Integer> {
 
         private final int[] track;
-        private final int maxSpeed;
         private final int[] restrictionsBuffer;
 
         private int currentSpeed = 1;
@@ -27,7 +26,6 @@ public class RacingInstructor {
             super(track.length, ORDERED & SIZED);
 
             this.track = track;
-            this.maxSpeed = maxSpeed;
             restrictionsBuffer = new int[maxSpeed - 1];
         }
 
