@@ -30,10 +30,14 @@ public class RacingInstructorTest {
 
     @Test
     public void testTraczk2() throws Exception {
-        int[] track = {4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 1, 3, 4, 4, 4, 2, 4, 4,
-                4, 2, 4, 4, 4, 2, 4, 4, 4, 1, 3, 4, 4};
+        int[] track = {4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 1, 3, 4, 4, 4, 2, 4, 4, 4, 2, 4, 4, 4, 2, 4, 4, 4, 1, 3, 4, 4};
         assertThat(racingInstructor.getInstructions(track),
-                is(new int[]{4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 1, 3, 4, 4, 4, 2, 4, 4,
-                        4, 2, 4, 4, 4, 2, 4, 4, 4, 1, 3, 4, 4}));
+                is(new int[]{1, 1, 1, -1, -1, 1, 1, 0, 0, -1, -1, 1, 1, 0, 0, -1, -1, 1, 1, 0, -1, -1, -1, 1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 0, -1, -1, 1, 1, 1, 0}));
+    }
+
+    @Test
+    public void testCircularTrackSlowDownAtEnd() throws Exception {
+        assertThat(racingInstructor.getInstructions(new int[]{1, 4, 4, 4, 4, 4}),
+                is(new int[]{1, 1, 1, -1, -1, -1}));
     }
 }

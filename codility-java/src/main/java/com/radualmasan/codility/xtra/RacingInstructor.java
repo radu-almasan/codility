@@ -32,9 +32,9 @@ public class RacingInstructor {
                 return false;
 
             final int action;
-            int restriction1 = currentPosition < track.length - 1 ? track[currentPosition + 1] : MAX_SPEED;
-            int restriction2 = currentPosition < track.length - 2 ? track[currentPosition + 2] : MAX_SPEED;
-            int restriction3 = currentPosition < track.length - 3 ? track[currentPosition + 3] : MAX_SPEED;
+            int restriction1 = track[(currentPosition + 1) % track.length];
+            int restriction2 = track[(currentPosition + 2) % track.length];
+            int restriction3 = track[(currentPosition + 3) % track.length];
 
             if (canIncreaseSpeed(restriction1, restriction2, restriction3))
                 action = 1;
