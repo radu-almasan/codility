@@ -9,7 +9,7 @@ public class RacingInstructor {
     private static final int MAX_SPEED = 4;
 
     public int[] getInstructions(int[] track) {
-        return StreamSupport.stream(new InstructionsSpectator(track), false)
+        return StreamSupport.stream(new InstructionsSpectator(track, MAX_SPEED), false)
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
@@ -17,13 +17,18 @@ public class RacingInstructor {
     private static class InstructionsSpectator extends Spliterators.AbstractSpliterator<Integer> {
 
         private final int[] track;
+        private final int maxSpeed;
+        private final int[] restrictionsBuffer;
 
         private int currentSpeed = 1;
         private int currentPosition = 0;
 
-        public InstructionsSpectator(int[] track) {
+        public InstructionsSpectator(int[] track, int maxSpeed) {
             super(track.length, ORDERED & SIZED);
+
             this.track = track;
+            this.maxSpeed = maxSpeed;
+            restrictionsBuffer = new int[maxSpeed - 1];
         }
 
         @Override
@@ -31,19 +36,12 @@ public class RacingInstructor {
             if (currentPosition >= track.length)
                 return false;
 
-            final int action;
-            int restriction1 = track[(currentPosition + 1) % track.length];
-            int restriction2 = track[(currentPosition + 2) % track.length];
-            int restriction3 = track[(currentPosition + 3) % track.length];
+            for (int i = 1; i <= restrictionsBuffer.length; i++)
+                restrictionsBuffer[i - 1] = track[(currentPosition + i) % track.length];
 
-            if (canIncreaseSpeed(restriction1, restriction2, restriction3))
-                action = 1;
-
-            else if (shouldMaintainSpeed(restriction1, restriction2, restriction3))
-                action = 0;
-
-            else
-                action = -1;
+            final int action = canIncreaseSpeed(restrictionsBuffer) ? 1
+                    : shouldMaintainSpeed(restrictionsBuffer) ? 0
+                    : -1;
 
             System.out.println(String.format("%d - %d - %d", track[currentPosition], currentSpeed, action));
             assert track[currentPosition] >= currentSpeed;
@@ -55,16 +53,26 @@ public class RacingInstructor {
             return true;
         }
 
-        private boolean canIncreaseSpeed(int restriction1, int restriction2, int restriction3) {
-            return currentSpeed < restriction1
-                    && (currentSpeed + 1) - restriction2 <= 1
-                    && (currentSpeed + 1) - restriction3 <= 2;
+        private boolean canIncreaseSpeed(int[] upcomingRestrictions) {
+            if (currentSpeed >= upcomingRestrictions[0])
+                return false;
+
+            for (int i = 1; i < upcomingRestrictions.length; i++)
+                if ((currentSpeed + 1) - upcomingRestrictions[i] > i)
+                    return false;
+
+            return true;
         }
 
-        private boolean shouldMaintainSpeed(int restriction1, int restriction2, int restriction3) {
-            return currentSpeed <= restriction1
-                    && currentSpeed - restriction2 < 2
-                    && currentSpeed - restriction3 < 3;
+        private boolean shouldMaintainSpeed(int[] upcomingRestrictions) {
+            if (currentSpeed > upcomingRestrictions[0])
+                return false;
+
+            for (int i = 1; i < upcomingRestrictions.length; i++)
+                if (currentSpeed - upcomingRestrictions[i] >= i + 1)
+                    return false;
+
+            return true;
         }
     }
 }
